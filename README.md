@@ -1,6 +1,6 @@
-# my-project1
+# shadow-websocket-gui
 
-> An electron-vue project
+> shadow-websocket gui for mac
 
 #### Build Setup
 
