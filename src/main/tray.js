@@ -1,7 +1,7 @@
 import { app, Tray, Menu, App, globalShortcut, ipcMain } from 'electron';
 import { proxy } from './proxyServer';
 import * as cp from 'child_process';
-import { assetPath, loadConfig } from './utils';
+import { assetPath, loadConfig, loadSetting } from './utils';
 import { showConfigWindow, close } from './configwin';
 import { CONFIG_DIR, AUTO_CONFIG_URL } from './const';
 
@@ -23,44 +23,14 @@ export function createTray() {
 }
 
 function createTrayMenu() {
-	return Menu.buildFromTemplate([
-		{
-			label: '运行',
-			click: function() {
-				proxyStartup();
-			}
-		},
-		{
-			label: '停止',
-			visible: false,
-			click: function() {
-				proxy.shutdown();
-			}
-		},
+	const { activeConfig } = loadSetting();
+	let menusList = [
 		{ type: 'separator' },
 		{
-			label: '配置',
-			submenu: Menu.buildFromTemplate([
-				{
-					label: '修改配置 [Cmd+Shift+S]',
-					click: function() {
-						showConfigWindow();
-					}
-				},
-				{
-					label: '查看 proxy.pac',
-					click: function() {
-						cp.execSync('open ' + AUTO_CONFIG_URL);
-					}
-				},
-				{
-					label: '打开配置目录',
-					click: function() {
-						cp.execSync('open ' + CONFIG_DIR);
-					}
-				}
-			])
+			label: '配置列表',
+			submenu: makeConfigList()
 		},
+		{ type: 'separator' },
 		{
 			label: '退出',
 			click: async function() {
@@ -69,25 +39,73 @@ function createTrayMenu() {
 				app.quit();
 			}
 		}
-	]);
+	];
+	if (!proxy.running) {
+		menusList.unshift({
+			label: `启动服务`,
+			click: function() {
+				proxyStartup();
+			}
+		});
+	} else {
+		menusList.unshift({
+			label: `停止服务`,
+			click: function() {
+				proxy.shutdown();
+			}
+		});
+	}
+	return Menu.buildFromTemplate(menusList);
 }
 
 // 更新托盘菜单及图标
 function updateMenu() {
-	contextMenu.items[0].visible = !proxy.running;
-	contextMenu.items[1].visible = proxy.running;
 	tray.setImage(proxy.running ? assetPath('icon/running.png') : assetPath('icon/normal.png'));
+	tray.setContextMenu(createTrayMenu());
+}
+
+function makeConfigList() {
+	const { configs, activeConfig } = loadSetting();
+	return Menu.buildFromTemplate([
+		{
+			label: '修改配置 [Cmd+Shift+S]',
+			click: function() {
+				showConfigWindow();
+			}
+		},
+		{
+			label: '查看 proxy.pac',
+			click: function() {
+				cp.execSync('open ' + AUTO_CONFIG_URL);
+			}
+		},
+		{
+			label: '打开配置目录',
+			click: function() {
+				cp.execSync('open ' + CONFIG_DIR);
+			}
+		},
+		{ type: 'separator' },
+		...configs.map((it) => {
+			return {
+				type: 'checkbox',
+				checked: activeConfig === it.name,
+				label: it.name,
+				click() {}
+			};
+		})
+	]);
 }
 
 function proxyStartup() {
 	const config = loadConfig();
 	proxy.setConfig(config);
-	proxy.startup();
+	proxy.restart();
 }
 
 ipcMain.on('async-message', (event, arg) => {
 	proxy.shutdown();
 	setTimeout(() => {
 		proxyStartup();
-	}, 2000);
+	}, 1000);
 });
