@@ -3,7 +3,7 @@ import { proxy } from './proxyServer';
 import * as cp from 'child_process';
 import { assetPath, loadConfig, loadSetting } from './utils';
 import { showConfigWindow, close } from './configwin';
-import { CONFIG_DIR, AUTO_CONFIG_URL } from '../renderer/share';
+import { CONFIG_DIR, AUTO_CONFIG_URL } from '../share';
 
 let tray = null;
 let contextMenu = null;

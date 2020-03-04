@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as fs from 'fs';
-import { PAC_PATH } from '../renderer/share';
+import { PAC_PATH } from '../share';
 import { setupSystemProxy } from './utils';
 
 export class PacServer {

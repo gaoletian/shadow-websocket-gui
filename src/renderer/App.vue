@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { ipcRenderer } from "electron";
-import { loadSetting, updateSetting } from "./share";
+import { loadSetting, updateSetting } from "../main/utils";
 import { Vue, Component } from "vue-property-decorator";
 
 const setting = loadSetting();
