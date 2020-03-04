@@ -1,6 +1,8 @@
-# shadow-websocket-gui
+# shadow-websocket-gui for mac
 
 > shadow-websocket gui for mac
+
+![](docs/imgs/2020-03-05-01-10-36.png)
 
 #### Build Setup
 
