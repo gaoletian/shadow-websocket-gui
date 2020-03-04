@@ -118,6 +118,11 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-8.10.59.tgz?cache=0&sync_timestamp=1582916472875&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-8.10.59.tgz#9e34261f30183f9777017a13d185dfac6b899e04"
   integrity sha1-njQmHzAYP5d3AXoT0YXfrGuJngQ=
 
+"@types/webpack-env@^1.15.1":
+  version "1.15.1"
+  resolved "https://registry.npm.taobao.org/@types/webpack-env/download/@types/webpack-env-1.15.1.tgz#c8e84705e08eed430b5e15b39c65b0944e4d1422"
+  integrity sha1-yOhHBeCO7UMLXhWznGWwlE5NFCI=
+
 "@types/yargs-parser@*":
   version "15.0.0"
   resolved "https://registry.npm.taobao.org/@types/yargs-parser/download/@types/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
