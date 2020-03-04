@@ -4,4 +4,4 @@ declare namespace NodeJS {
   }
 }
 
-declare var __static: string
+declare var __static: string;
