@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as cp from 'child_process';
-import { WORKDIR, APP_NAME, AUTO_CONFIG_URL, CONFIG_DIR, SETTING_PATH, PAC_NAME, PAC_PATH } from './const';
+import { WORKDIR, APP_NAME, AUTO_CONFIG_URL, CONFIG_DIR, SETTING_PATH, PAC_NAME, PAC_PATH } from '../renderer/share';
 
 export const assetPath = (png) => path.join(__static, png);
 

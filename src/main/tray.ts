@@ -1,9 +1,9 @@
-import { app, Tray, Menu, App, globalShortcut, ipcMain } from 'electron';
+import { app, Tray, Menu, App, globalShortcut, ipcMain, MenuItemConstructorOptions } from 'electron';
 import { proxy } from './proxyServer';
 import * as cp from 'child_process';
 import { assetPath, loadConfig, loadSetting } from './utils';
 import { showConfigWindow, close } from './configwin';
-import { CONFIG_DIR, AUTO_CONFIG_URL } from './const';
+import { CONFIG_DIR, AUTO_CONFIG_URL } from '../renderer/share';
 
 let tray = null;
 let contextMenu = null;
@@ -24,11 +24,23 @@ export function createTray() {
 
 function createTrayMenu() {
 	const { activeConfig } = loadSetting();
-	let menusList = [
+	let menusList: MenuItemConstructorOptions[] = [
 		{ type: 'separator' },
 		{
 			label: '配置列表',
 			submenu: makeConfigList()
+		},
+		{
+			label: '记笔记',
+			click() {}
+		},
+		{
+			label: '写文章',
+			click() {}
+		},
+		{
+			label: '网址收藏',
+			click() {}
 		},
 		{ type: 'separator' },
 		{
