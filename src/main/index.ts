@@ -1,5 +1,3 @@
-require('electron-debug')({ showDevTools: true });
-
 import { app, Menu } from 'electron';
 
 /**

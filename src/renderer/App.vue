@@ -2,7 +2,7 @@
 #app
   el-container
     el-aside(width='220px',style="-webkit-app-region: drag")
-      div(style="padding-bottom: 24px;") 配置列表
+      h1 配置列表
       ul
         li.list-item(
             v-for="(c, index) in configs", 
@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { ipcRenderer } from "electron";
-const { loadSetting, updateSetting } = require("./share");
+import { loadSetting, updateSetting } from "./share";
 import { Vue, Component } from "vue-property-decorator";
 
 const setting = loadSetting();
@@ -131,7 +131,6 @@ export default class App extends Vue {
   removeConfig() {
     if (this.configs[this.current].name === this.activeConfig) {
       this.$message({
-        title: "警告",
         message: "当前配置正在启用，不能删除！！",
         type: "warning"
       });
