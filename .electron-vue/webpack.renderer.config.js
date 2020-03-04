@@ -19,12 +19,12 @@ const { VueLoaderPlugin } = require('vue-loader');
  * that provide pure *.vue files that need compiling
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/webpack-configurations.html#white-listing-externals
  */
-let whiteListedModules = [ 'vue' ];
+let whiteListedModules = [];
 
 let rendererConfig = {
 	devtool: '#cheap-module-eval-source-map',
 	entry: {
-		renderer: path.join(__dirname, '../src/renderer/main.js')
+		renderer: path.join(__dirname, '../src/renderer/main.ts')
 	},
 	externals: [ ...Object.keys(dependencies || {}).filter((d) => !whiteListedModules.includes(d)) ],
 	module: {
@@ -71,6 +71,42 @@ let rendererConfig = {
 						}
 					}
 				}
+			},
+			{
+				test: /\.ts$/,
+				use: [
+					/* config.module.rule('ts').use('babel-loader') */
+					{
+						loader: 'babel-loader'
+					},
+					/* config.module.rule('ts').use('ts-loader') */
+					{
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+							appendTsSuffixTo: [ '\\.vue$' ],
+							happyPackMode: false
+						}
+					}
+				]
+			},
+			{
+				test: /\.tsx$/,
+				use: [
+					/* config.module.rule('tsx').use('babel-loader') */
+					{
+						loader: 'babel-loader'
+					},
+					/* config.module.rule('tsx').use('ts-loader') */
+					{
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+							appendTsxSuffixTo: [ '\\.vue$' ],
+							happyPackMode: false
+						}
+					}
+				]
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

@@ -2,7 +2,7 @@
 #app
   el-container
     el-aside(width='220px',style="-webkit-app-region: drag")
-      div(style="padding-bottom: 24px;") 配置列表
+      h1 配置列表
       ul
         li.list-item(
             v-for="(c, index) in configs", 
@@ -56,102 +56,100 @@
   </span>
 </template>
 
-<script>
-const { loadSetting, updateSetting } = require("../main/utils");
-const { ipcRenderer } = require("electron");
-export default {
-  data() {
-    const { configs, activeConfig } = loadSetting();
-    const current = configs.findIndex(c => c.name === activeConfig) || 0;
-    return {
-      configName: "",
-      popVisible: false,
-      isShowDialog: false,
-      isEdit: false,
-      configs,
-      activeConfig,
-      current,
-      methods: [
-        "rc4",
-        "rc4-md5",
-        "table",
-        "bf-cfb",
-        "des-cfb",
-        "rc2-cfb",
-        "idea-cfb",
-        "seed-cfb",
-        "cast5-cfb",
-        "aes-128-cfb",
-        "aes-192-cfb",
-        "aes-256-cfb",
-        "camellia-256-cfb",
-        "camellia-192-cfb",
-        "camellia-128-cfb"
-      ]
-    };
-  },
-  methods: {
-    showDialog(edit) {
-      this.configName = edit === "edit" ? this.configs[this.current].name : "";
-      this.isEdit = edit === "edit";
+<script lang="ts">
+import { ipcRenderer } from "electron";
+import { loadSetting, updateSetting } from "./share";
+import { Vue, Component } from "vue-property-decorator";
 
-      this.isShowDialog = true;
-    },
-    active(configName) {
-      this.activeConfig = this.configs[this.current].name;
-      this.save();
-      ipcRenderer.send("async-message", "reStartup");
-    },
+const setting = loadSetting();
 
-    upsertConfig() {
-      const names = this.configs.map(c => c.name);
-      if (names.includes(this.configName)) {
-        this.$message.error("配置名称不能重复");
-        return;
-      }
-      if (this.isEdit) {
-        if (this.configs[this.current].name === this.activeConfig) {
-          this.activeConfig = this.configName;
-        }
-        this.configs[this.current].name = this.configName;
-      } else {
-        this.configs.push({
-          name: this.configName,
-          serverAddress: "域名或ip",
-          serverPort: 80,
-          localAddress: "127.0.0.1",
-          localPort: 1099,
-          method: "aes-256-cfb",
-          password: "password"
-        });
-      }
-      this.save();
-      this.isShowDialog = false;
-    },
-    removeConfig() {
+@Component({})
+export default class App extends Vue {
+  configName = "";
+  popVisible = false;
+  isShowDialog = false;
+  isEdit = false;
+  configs = setting.configs;
+  activeConfig = setting.activeConfig;
+  current =
+    setting.configs.findIndex(c => c.name === setting.activeConfig) || 0;
+  methods = [
+    "rc4",
+    "rc4-md5",
+    "table",
+    "bf-cfb",
+    "des-cfb",
+    "rc2-cfb",
+    "idea-cfb",
+    "seed-cfb",
+    "cast5-cfb",
+    "aes-128-cfb",
+    "aes-192-cfb",
+    "aes-256-cfb",
+    "camellia-256-cfb",
+    "camellia-192-cfb",
+    "camellia-128-cfb"
+  ];
+
+  showDialog(edit?: "edit") {
+    this.configName = edit === "edit" ? this.configs[this.current].name : "";
+    this.isEdit = edit === "edit";
+
+    this.isShowDialog = true;
+  }
+  active(configName) {
+    this.activeConfig = this.configs[this.current].name;
+    this.save();
+    ipcRenderer.send("async-message", "reStartup");
+  }
+
+  upsertConfig() {
+    const names = this.configs.map(c => c.name);
+    if (names.includes(this.configName)) {
+      this.$message.error("配置名称不能重复");
+      return;
+    }
+    if (this.isEdit) {
       if (this.configs[this.current].name === this.activeConfig) {
-        this.$message({
-          title: "警告",
-          message: "当前配置正在启用，不能删除！！",
-          type: "warning"
-        });
-        return false;
+        this.activeConfig = this.configName;
       }
-      this.configs.splice(this.current, 1);
-      this.current = this.current > 0 ? this.current - 1 : 0;
-      this.save();
-    },
-    save() {
-      this.$nextTick(() => {
-        const { activeConfig, configs } = this;
-        updateSetting({ activeConfig, configs });
-        this.$message.success({
-          message: "操作成功"
-        });
+      this.configs[this.current].name = this.configName;
+    } else {
+      this.configs.push({
+        name: this.configName,
+        serverAddress: "域名或ip",
+        serverPort: 80,
+        localAddress: "127.0.0.1",
+        localPort: 1099,
+        method: "aes-256-cfb",
+        password: "password"
       });
     }
+    this.save();
+    this.isShowDialog = false;
   }
-};
+  removeConfig() {
+    if (this.configs[this.current].name === this.activeConfig) {
+      this.$message({
+        message: "当前配置正在启用，不能删除！！",
+        type: "warning"
+      });
+      return false;
+    }
+    this.configs.splice(this.current, 1);
+    this.current = this.current > 0 ? this.current - 1 : 0;
+    this.save();
+  }
+  save() {
+    this.$nextTick(() => {
+      const { activeConfig, configs } = this;
+      updateSetting({ activeConfig, configs });
+      this.$message.success({
+        message: "操作成功"
+      });
+    });
+  }
+}
 </script>
 
 <style lang="scss">
