@@ -4,6 +4,14 @@
 
 ![](docs/imgs/2020-03-05-01-10-36.png)
 
+#### todo list
+
+- [x] shadow-websocket可视化配置
+- [ ] hosts可视化编辑
+- [ ] 快捷笔记
+- [ ] 网址收藏
+- [ ] 插件化子应用
+
 #### Build Setup
 
 ``` bash
