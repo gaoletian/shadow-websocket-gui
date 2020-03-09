@@ -11,6 +11,7 @@ import { proxy } from "./proxyServer";
 import * as cp from "child_process";
 import { assetPath, loadConfig, loadSetting } from "./utils";
 import { showConfigWindow, close } from "./configwin";
+import * as yueque from "./yuquewin";
 import { CONFIG_DIR, AUTO_CONFIG_URL } from "../share";
 
 let tray = null;
@@ -26,6 +27,7 @@ export function createTray() {
   // 创建托盘
   tray = new Tray(assetPath("icon/normal.png"));
   tray.setContextMenu(contextMenu);
+
   proxy.on("startup", updateMenu);
   proxy.on("shutdown", updateMenu);
 }
@@ -44,7 +46,9 @@ function createTrayMenu() {
     },
     {
       label: "写文章",
-      click() {}
+      click() {
+        yueque.show();
+      }
     },
     {
       label: "网址收藏",
