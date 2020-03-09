@@ -1,6 +1,6 @@
-import * as path from "path";
-import * as fs from "fs";
-import * as cp from "child_process";
+import * as path from 'path';
+import * as fs from 'fs';
+import * as cp from 'child_process';
 import {
   WORKDIR,
   APP_NAME,
@@ -9,12 +9,12 @@ import {
   SETTING_PATH,
   PAC_NAME,
   PAC_PATH
-} from "../share";
+} from '../share';
 
 export const assetPath = png => path.join(__static, png);
 
 export const readJsonSync = path => {
-  return JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
+  return JSON.parse(fs.readFileSync(path, { encoding: 'utf8' }));
 };
 
 export const loadConfig = () => {
@@ -40,17 +40,17 @@ export function initConfig() {
       SETTING_PATH,
       JSON.stringify(
         {
-          activeConfig: "herokuapp",
+          activeConfig: 'herokuapp',
           pacPort: 8989,
           configs: [
             {
-              name: "herokuapp",
-              localAddress: "127.0.0.1",
-              localPort: "1099",
-              method: "aes-256-cfb",
-              password: "Gg3619323",
-              serverAddress: "glt-app.herokuapp.com",
-              serverPort: "80"
+              name: 'herokuapp',
+              localAddress: '127.0.0.1',
+              localPort: '1099',
+              method: 'aes-256-cfb',
+              password: 'Gg3619323',
+              serverAddress: 'glt-app.herokuapp.com',
+              serverPort: '80'
             }
           ]
         },
@@ -70,7 +70,7 @@ export function initConfig() {
  */
 export function setupSystemProxy(state) {
   // 配置系统自动代理
-  if (state === "off") {
+  if (state === 'off') {
     cp.execSync(`networksetup -setautoproxystate "WI-FI" off`);
   } else {
     cp.execSync(`networksetup -setautoproxyurl "WI-FI" ${AUTO_CONFIG_URL}`);

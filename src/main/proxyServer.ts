@@ -1,19 +1,19 @@
-import { getLogger } from "log4js";
-import { PacServer } from "./pacServer";
-import { TCPRelay } from "shadowsocks-websocket";
-import { EventEmitter } from "events";
+import { getLogger } from 'log4js';
+import { PacServer } from './pacServer';
+import { TCPRelay } from 'shadowsocks-websocket';
+import { EventEmitter } from 'events';
 
-let logger = getLogger("shadowwebsocks");
+let logger = getLogger('shadowwebsocks');
 
 class ProxyServer extends EventEmitter {
   relay = null;
   pacServer = null;
   config = {
-    method: "",
-    localAddress: "127.0.0.1",
+    method: '',
+    localAddress: '127.0.0.1',
     localPort: 1099,
-    password: "",
-    serverAddress: "0.0.0.0",
+    password: '',
+    serverAddress: '0.0.0.0',
     serverPort: 80
   };
   running = false;
@@ -44,11 +44,11 @@ class ProxyServer extends EventEmitter {
     const { localAddress, localPort } = this.config;
 
     try {
-      await this.relay.setLogLevel("info").bootstrap();
+      await this.relay.setLogLevel('info').bootstrap();
       logger.info(`服务已启动 ${localAddress}:${localPort}`);
       this.running = true;
       // 发射事件
-      this.emit("startup");
+      this.emit('startup');
     } catch (err) {
       logger.error(err);
       this.running = false;
@@ -62,12 +62,12 @@ class ProxyServer extends EventEmitter {
     } catch (err) {
       logger.info(err);
     } finally {
-      logger.info("服务已停止");
+      logger.info('服务已停止');
       this.relay = null;
       this.running = false;
       this.pacServer.shutdown();
       // 发射事件
-      this.emit("shutdown");
+      this.emit('shutdown');
       return Promise.resolve(true);
     }
   }

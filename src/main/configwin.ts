@@ -1,10 +1,10 @@
-import { BrowserWindow } from "electron";
-import { assetPath } from "./utils";
+import { BrowserWindow } from 'electron';
+import { assetPath } from './utils';
 
 let configWin = null;
 
 const winURL =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === 'development'
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`;
 
@@ -12,7 +12,7 @@ const winURL =
 function createConfigWindow() {
   configWin = new BrowserWindow({
     alwaysOnTop: true,
-    title: "客户端配置",
+    title: '客户端配置',
     width: 660,
     height: 440,
     resizable: true,
@@ -24,18 +24,18 @@ function createConfigWindow() {
     fullscreenable: false,
     // frame: false,
     darkTheme: true,
-    titleBarStyle: "default",
+    titleBarStyle: 'default',
     webPreferences: {
       devTools: true,
       nodeIntegration: true
     },
-    backgroundColor: "#35475a",
+    backgroundColor: '#35475a',
     show: false
   });
-  configWin.on("close", () => {
+  configWin.on('close', () => {
     configWin = null;
   });
-  configWin.once("ready-to-show", () => {
+  configWin.once('ready-to-show', () => {
     configWin.show();
     configWin.focus();
     // configWin.setAlwaysOnTop(true, 'modal-panel');
