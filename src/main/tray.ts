@@ -38,18 +38,18 @@ function createTrayMenu() {
       label: '配置列表',
       submenu: makeConfigList()
     },
-    {
-      label: '记笔记',
-      click() {}
-    },
-    {
-      label: '写文章',
-      click() {}
-    },
-    {
-      label: '网址收藏',
-      click() {}
-    },
+    // {
+    //   label: '记笔记',
+    //   click() {}
+    // },
+    // {
+    //   label: '写文章',
+    //   click() {}
+    // },
+    // {
+    //   label: '网址收藏',
+    //   click() {}
+    // },
     { type: 'separator' },
     {
       label: '退出',
