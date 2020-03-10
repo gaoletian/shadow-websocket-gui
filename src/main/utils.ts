@@ -61,7 +61,14 @@ export function initConfig() {
   }
 
   if (!fs.existsSync(PAC_PATH)) {
-    cp.execSync(`cp ${assetPath(PAC_NAME)} ${PAC_PATH}`);
+    // fs.readFileSync从 asar文件中读取并写入到指定路由，代替 cp命令
+    // https://github.com/gaoletian/shadow-websocket-gui/issues/3
+    // 在 Electron 中有两类 APIs：Node.js 提供的 Node API 和 Chromium 提供的 Web API。 这两种 API 都支持从 asar 档案中读取文件
+
+    let pacfile = fs.readFileSync(`${assetPath(PAC_NAME)}`, {
+      encoding: 'utf8'
+    });
+    fs.writeFileSync(PAC_PATH, pacfile);
   }
 }
 
