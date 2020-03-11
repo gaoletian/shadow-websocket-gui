@@ -12,20 +12,25 @@
 - [ ] 网址收藏
 - [ ] 插件化子应用
 
-#### Build Setup
+#### 如何开始
 
 ``` bash
-# install dependencies
-npm install
+# 安装依赖
+yarn
 
-# serve with hot reload at localhost:9080
-npm run dev
+# 开发
+yarn dev
 
-# build electron application for production
-npm run build
+# 构建(只支持mac)
+yarn build:darwin
 
 
 ```
+
+#### 断点调试
+
+首先运行开发命令  `yarn dev`, 打开vscode的调试面版开始调试， 可以在 `src/main/*.ts` 中设置断点
+
 
 ---
 
