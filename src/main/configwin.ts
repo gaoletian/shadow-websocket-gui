@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 import { assetPath } from './utils';
 
-let configWin = null;
+let configWin: BrowserWindow = null;
 
 const winURL =
   process.env.NODE_ENV === 'development'
