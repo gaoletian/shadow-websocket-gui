@@ -6,15 +6,15 @@
 
 #### todo list
 
-- [x] shadow-websocket可视化配置
-- [ ] hosts可视化编辑
+- [x] shadow-websocket 可视化配置
+- [ ] hosts 可视化编辑
 - [ ] 快捷笔记
 - [ ] 网址收藏
 - [ ] 插件化子应用
 
 #### 如何开始
 
-``` bash
+```bash
 # 安装依赖
 yarn
 
@@ -29,8 +29,13 @@ yarn build:darwin
 
 #### 断点调试
 
-首先运行开发命令  `yarn dev`, 打开vscode的调试面版开始调试， 可以在 `src/main/*.ts` 中设置断点
+`设置断点`
 
+![](docs/imgs/2020-03-12-21-13-08.png)
+
+`调试运行`
+
+![](docs/imgs/debuger.png)
 
 ---
 
