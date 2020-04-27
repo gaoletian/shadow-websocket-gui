@@ -11,6 +11,22 @@ import {
   PAC_PATH
 } from '../share';
 
+const DefaultSetting = {
+  activeConfig: 'herokuapp',
+  pacPort: 8989,
+  configs: [
+    {
+      name: 'herokuapp',
+      localAddress: '127.0.0.1',
+      localPort: '1099',
+      method: 'aes-256-cfb',
+      password: 'Gg3619323',
+      serverAddress: 'glt-app.herokuapp.com',
+      serverPort: '80'
+    }
+  ]
+};
+
 export const assetPath = png => path.join(__static, png);
 
 export const readJsonSync = path => {
@@ -23,8 +39,13 @@ export const loadConfig = () => {
 };
 
 export const loadSetting = () => {
-  let setting = readJsonSync(SETTING_PATH);
+  let setting = readJsonSync(SETTING_PATH) as typeof DefaultSetting;
   return setting;
+};
+
+export const getAutoConfigUrl = () => {
+  const { pacPort } = loadSetting();
+  return 'http://127.0.0.1:' + pacPort + '/proxy.pac';
 };
 
 export const updateSetting = newSetting => {
@@ -36,28 +57,7 @@ export const updateSetting = newSetting => {
 export function initConfig() {
   cp.execSync(`mkdir -p ${CONFIG_DIR}`);
   if (!fs.existsSync(SETTING_PATH)) {
-    fs.writeFileSync(
-      SETTING_PATH,
-      JSON.stringify(
-        {
-          activeConfig: 'herokuapp',
-          pacPort: 8989,
-          configs: [
-            {
-              name: 'herokuapp',
-              localAddress: '127.0.0.1',
-              localPort: '1099',
-              method: 'aes-256-cfb',
-              password: 'Gg3619323',
-              serverAddress: 'glt-app.herokuapp.com',
-              serverPort: '80'
-            }
-          ]
-        },
-        null,
-        2
-      )
-    );
+    fs.writeFileSync(SETTING_PATH, JSON.stringify(DefaultSetting, null, 2));
   }
 
   if (!fs.existsSync(PAC_PATH)) {
@@ -75,11 +75,11 @@ export function initConfig() {
 /**
  * 配置系统代理
  */
-export function setupSystemProxy(state) {
+export function setupSystemProxy(state: 'off' | 'on', pac_url?: string) {
   // 配置系统自动代理
   if (state === 'off') {
     cp.execSync(`networksetup -setautoproxystate "WI-FI" off`);
   } else {
-    cp.execSync(`networksetup -setautoproxyurl "WI-FI" ${AUTO_CONFIG_URL}`);
+    cp.execSync(`networksetup -setautoproxyurl "WI-FI" ${pac_url}`);
   }
 }

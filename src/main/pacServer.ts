@@ -1,11 +1,12 @@
 import * as http from 'http';
 import * as fs from 'fs';
 import { PAC_PATH } from '../share';
-import { setupSystemProxy } from './utils';
+import { setupSystemProxy, loadSetting, getAutoConfigUrl } from './utils';
 
 export class PacServer {
   server = null;
   startup() {
+    const { pacPort } = loadSetting();
     this.server = http
       .createServer((req, res) => {
         let pac = fs.readFileSync(PAC_PATH, {
@@ -15,9 +16,9 @@ export class PacServer {
         res.setHeader('Content-Type', 'text/plain');
         res.end(pac);
       })
-      .listen(8989);
+      .listen(pacPort);
 
-    setupSystemProxy('on');
+    setupSystemProxy('on', getAutoConfigUrl());
   }
   shutdown() {
     this.server && this.server.close() && (this.server = null);

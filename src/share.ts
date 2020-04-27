@@ -1,5 +1,4 @@
 import { join } from 'path';
-import * as fs from 'fs';
 export const HOME_DIR = process.env.HOME;
 export const WORKDIR = __dirname;
 export const APP_NAME = 'ShadowWebsocks';

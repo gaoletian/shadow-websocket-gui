@@ -9,7 +9,7 @@ import {
 } from 'electron';
 import { proxy } from './proxyServer';
 import * as cp from 'child_process';
-import { assetPath, loadConfig, loadSetting } from './utils';
+import { assetPath, loadConfig, loadSetting, getAutoConfigUrl } from './utils';
 import { showConfigWindow, close } from './configwin';
 import { CONFIG_DIR, AUTO_CONFIG_URL } from '../share';
 
@@ -98,7 +98,7 @@ function makeConfigList() {
     {
       label: '查看 proxy.pac',
       click: function() {
-        cp.execSync('open ' + AUTO_CONFIG_URL);
+        cp.execSync('open ' + getAutoConfigUrl());
       }
     },
     {
