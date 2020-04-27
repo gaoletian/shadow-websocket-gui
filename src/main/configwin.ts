@@ -42,6 +42,7 @@ function createConfigWindow() {
   });
   // configWin.loadURL(`file://${assetPath('index.html')}`);
   configWin.loadURL(winURL);
+  configWin.setVisibleOnAllWorkspaces(true);
 }
 
 export function showConfigWindow() {
