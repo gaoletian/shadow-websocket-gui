@@ -9,6 +9,7 @@ const types = {
   fix: { title: '🐛 Bug Fixes' },
   feat: { title: '🚀 Features' },
   refactor: { title: '💅 Refactors' },
+  refact: { title: '💅 Refactors' },
   perf: { title: '🔥 Performance' },
   examples: { title: '📝 Examples' },
   chore: { title: '🏡 Chore' },
@@ -18,7 +19,8 @@ const types = {
 const knownAuthors = [];
 const ignoreScopes = ['deps'];
 
-const isKnownAuthor = name => Boolean(knownAuthors.find(n => name.toLowerCase().includes(n)));
+const isKnownAuthor = name =>
+  Boolean(knownAuthors.find(n => name.toLowerCase().includes(n)));
 
 const allowedTypes = Object.keys(types);
 
@@ -51,7 +53,11 @@ async function main() {
   if (targetVersion) {
     const title = `v${targetVersion} / ${getDate()}` + '\n===================';
     let oldMarkdown = readFileSync('CHANGELOG.md', { encoding: 'utf8' });
-    await writeFile('CHANGELOG.md', title + '\n\n' + markdown + '\n\n' + oldMarkdown, 'utf-8');
+    await writeFile(
+      'CHANGELOG.md',
+      title + '\n\n' + markdown + '\n\n' + oldMarkdown,
+      'utf-8'
+    );
   }
 }
 
@@ -67,7 +73,12 @@ function execCommand(cmd, args) {
 }
 
 async function getLastGitTag() {
-  const r = await execCommand('git', ['--no-pager', 'tag', '--sort=v:refname', '-l']).then(r => r.split('\n'));
+  const r = await execCommand('git', [
+    '--no-pager',
+    'tag',
+    '--sort=v:refname',
+    '-l'
+  ]).then(r => r.split('\n'));
   return r[r.length - 1];
 }
 
@@ -78,7 +89,12 @@ async function getCurrentGitBranch() {
 
 async function getGitDiff(from, to) {
   // # https://git-scm.com/docs/pretty-formats
-  const r = await execCommand('git', ['--no-pager', 'log', `${from}...${to}`, '--pretty=%s|%h|%an|%ae']);
+  const r = await execCommand('git', [
+    '--no-pager',
+    'log',
+    `${from}...${to}`,
+    '--pretty=%s|%h|%an|%ae'
+  ]);
   return r.split('\n').map(line => {
     const [message, commit, authorName, authorEmail] = line.split('|');
 
@@ -152,7 +168,11 @@ function generateMarkDown(commits) {
     }
   }
 
-  const authors = sortBy(uniq(commits.map(commit => commit.authorName).filter(an => !isKnownAuthor(an))));
+  const authors = sortBy(
+    uniq(
+      commits.map(commit => commit.authorName).filter(an => !isKnownAuthor(an))
+    )
+  );
   if (authors.length) {
     markdown += '\n\n' + '### ' + '💖 Thanks to' + '\n\n';
     markdown += authors.map(name => '- ' + name).join('\n');

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/gaoletian/shadow-websocket-gui.svg?branch=master)](https://travis-ci.com/gaoletian/shadow-websocket-gui)
+
 # shadow-websocket-gui for mac
 
 > shadow-websocket gui for mac

@@ -1,3 +1,29 @@
+# v0.0.3 / 2020-04-29
+
+### 🚀 Features
+
+- `general`
+  - Config window now can visible on all workspaces
+  - Supoort get pacServer port from setting
+  - Set configWin's type is BrowserWindow
+  - Change app icon
+
+### 🏡 Chore
+
+- `scripts`
+  - Add changelog and verifyCommit
+- `debug`
+  - Update debug config and docs
+  - Main process debug support
+- `general`
+  - Reformat webpack.main.config.js
+  - Use prettier-vscode as default formater
+
+### 💖 Thanks to
+
+- gaoletian
+- 高乐天
+
 # v0.0.2 / 2020-03-10
 
 - release: v0.0.2

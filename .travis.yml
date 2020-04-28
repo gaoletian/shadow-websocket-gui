@@ -1,15 +1,16 @@
 osx_image: xcode8.3
-sudo: required
 dist: trusty
 language: c
-matrix:
+os:
+  - osx
+jobs:
   include:
     - os: osx
 cache:
   directories:
     - node_modules
-    - "$HOME/.electron"
-    - "$HOME/.cache"
+    - '$HOME/.electron'
+    - '$HOME/.cache'
 addons:
   apt:
     packages:
@@ -20,8 +21,18 @@ install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - source ~/.bashrc
   - yarn
+
 script:
   - yarn run build:darwin
-branches:
-  only:
-    - master
+  - tar zcf dist/shadow-websocket-gui-darwin-x64.tar.gz build/shadow-websocket-gui-darwin-x64
+
+deploy:
+  provider: releases
+  cleanup: false
+  skip_cleanup: true
+  token: $GH_TOKEN
+  file: dist/shadow-websocket-gui-darwin-x64.tar.gz
+  draft: false
+  overwrite: true
+  on:
+    tags: on
