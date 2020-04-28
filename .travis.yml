@@ -24,14 +24,14 @@ install:
 
 script:
   - yarn run build:darwin
-  - tar zcf dist/shadow-websocket-gui-darwin-x64.tar.gz build/shadow-websocket-gui-darwin-x64
+  - yarn run zip
 
 deploy:
   provider: releases
   cleanup: false
   skip_cleanup: true
   token: $GH_TOKEN
-  file: dist/shadow-websocket-gui-darwin-x64.tar.gz
+  file: build/shadow-websocket-gui-darwin-x64.tar.gz
   draft: false
   overwrite: true
   on:
