@@ -9,12 +9,18 @@ import {
 } from 'electron';
 import { proxy } from './proxyServer';
 import * as cp from 'child_process';
-import { assetPath, loadConfig, loadSetting, getAutoConfigUrl } from './utils';
+import {
+  assetPath,
+  loadConfig,
+  loadSetting,
+  getAutoConfigUrl,
+  updateSetting
+} from './utils';
 import { showConfigWindow, close } from './configwin';
 import { CONFIG_DIR, AUTO_CONFIG_URL } from '../share';
 
-let tray = null;
-let contextMenu = null;
+let tray: Tray = null;
+let contextMenu: Menu = null;
 
 export function createTray() {
   // 注册全局快捷键
@@ -35,21 +41,10 @@ function createTrayMenu() {
   let menusList: MenuItemConstructorOptions[] = [
     { type: 'separator' },
     {
-      label: '配置列表',
+      type: 'submenu',
+      label: '' + activeConfig,
       submenu: makeConfigList()
     },
-    // {
-    //   label: '记笔记',
-    //   click() {}
-    // },
-    // {
-    //   label: '写文章',
-    //   click() {}
-    // },
-    // {
-    //   label: '网址收藏',
-    //   click() {}
-    // },
     { type: 'separator' },
     {
       label: '退出',
@@ -113,8 +108,13 @@ function makeConfigList() {
         type: 'checkbox',
         checked: activeConfig === it.name,
         label: it.name,
-        click() {}
-      };
+        click: () => {
+          if (activeConfig === it.name) return false;
+          updateSetting({ activeConfig: it.name });
+          proxyStartup();
+          updateMenu();
+        }
+      } as const;
     })
   ]);
 }
