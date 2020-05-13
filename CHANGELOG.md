@@ -1,3 +1,30 @@
+v0.0.4 / 2020-05-13
+===================
+
+### 🐛 Bug Fixes
+
+- `general`
+  - Type error
+  - Proxy.pac update by localPort change
+
+
+### 🚀 Features
+
+- `general`
+  - Add type define
+  - Support switch server from trayMenu  & auto restart
+
+
+### 🏡 Chore
+
+- `general`
+  - Add release script
+
+
+### 💖 Thanks to
+
+- gaoletian
+
 # v0.0.3 / 2020-04-29
 
 ### 🚀 Features
