@@ -1,0 +1,98 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #35475a;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+.list-item {
+  padding: 10px;
+  margin: 6px 10px;
+  cursor: pointer;
+  text-align: justify;
+  position: relative;
+
+  .popmenu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+}
+
+.active {
+  background-color: rgb(241, 4, 75);
+}
+
+.el-popover {
+  min-width: 50px !important;
+  width: 100px;
+
+  .el-button {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+}
+
+.el-header,
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
+.el-aside {
+  background-color: #35475a;
+  color: #dadada;
+  text-align: center;
+  height: 100vh;
+  overflow: auto;
+  /* box-shadow: inset 0px 0px 16px 0px black; */
+  letter-spacing: 1px;
+  font-family: sans-serif;
+  padding-top: 30px;
+  position: relative;
+}
+
+.sticky {
+  position: absolute;
+  margin: auto;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+}
+
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+  text-align: left;
+  height: 100vh;
+}
+
+.custom-input .el-input__inner {
+  text-align: center;
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+.flex1 {
+  flex: 1;
+}
+.el-divider--horizontal {
+  margin: 0px 0px 24px 0px !important;
+}

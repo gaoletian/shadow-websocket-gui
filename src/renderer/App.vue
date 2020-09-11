@@ -57,15 +57,15 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
-import { loadSetting, updateSetting } from "../main/utils";
-import { Vue, Component } from "vue-property-decorator";
+import { ipcRenderer } from 'electron';
+import { loadSetting, updateSetting } from '../main/utils';
+import { Vue, Component } from 'vue-property-decorator';
 
 const setting = loadSetting();
 
 @Component({})
 export default class App extends Vue {
-  configName = "";
+  configName = '';
   popVisible = false;
   isShowDialog = false;
   isEdit = false;
@@ -74,39 +74,39 @@ export default class App extends Vue {
   current =
     setting.configs.findIndex(c => c.name === setting.activeConfig) || 0;
   methods = [
-    "rc4",
-    "rc4-md5",
-    "table",
-    "bf-cfb",
-    "des-cfb",
-    "rc2-cfb",
-    "idea-cfb",
-    "seed-cfb",
-    "cast5-cfb",
-    "aes-128-cfb",
-    "aes-192-cfb",
-    "aes-256-cfb",
-    "camellia-256-cfb",
-    "camellia-192-cfb",
-    "camellia-128-cfb"
+    'rc4',
+    'rc4-md5',
+    'table',
+    'bf-cfb',
+    'des-cfb',
+    'rc2-cfb',
+    'idea-cfb',
+    'seed-cfb',
+    'cast5-cfb',
+    'aes-128-cfb',
+    'aes-192-cfb',
+    'aes-256-cfb',
+    'camellia-256-cfb',
+    'camellia-192-cfb',
+    'camellia-128-cfb'
   ];
 
-  showDialog(edit?: "edit") {
-    this.configName = edit === "edit" ? this.configs[this.current].name : "";
-    this.isEdit = edit === "edit";
+  showDialog(edit?: 'edit') {
+    this.configName = edit === 'edit' ? this.configs[this.current].name : '';
+    this.isEdit = edit === 'edit';
 
     this.isShowDialog = true;
   }
   active(configName) {
     this.activeConfig = this.configs[this.current].name;
     this.save();
-    ipcRenderer.send("async-message", "reStartup");
+    ipcRenderer.send('async-message', 'reStartup');
   }
 
   upsertConfig() {
     const names = this.configs.map(c => c.name);
     if (names.includes(this.configName)) {
-      this.$message.error("配置名称不能重复");
+      this.$message.error('配置名称不能重复');
       return;
     }
     if (this.isEdit) {
@@ -117,12 +117,12 @@ export default class App extends Vue {
     } else {
       this.configs.push({
         name: this.configName,
-        serverAddress: "域名或ip",
+        serverAddress: '域名或ip',
         serverPort: 80,
-        localAddress: "127.0.0.1",
+        localAddress: '127.0.0.1',
         localPort: 1099,
-        method: "aes-256-cfb",
-        password: "password"
+        method: 'aes-256-cfb',
+        password: 'password'
       });
     }
     this.save();
@@ -131,8 +131,8 @@ export default class App extends Vue {
   removeConfig() {
     if (this.configs[this.current].name === this.activeConfig) {
       this.$message({
-        message: "当前配置正在启用，不能删除！！",
-        type: "warning"
+        message: '当前配置正在启用，不能删除！！',
+        type: 'warning'
       });
       return false;
     }
@@ -145,110 +145,11 @@ export default class App extends Vue {
       const { activeConfig, configs } = this;
       updateSetting({ activeConfig, configs });
       this.$message.success({
-        message: "操作成功"
+        message: '操作成功'
       });
     });
   }
 }
 </script>
 
-<style lang="scss">
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: #35475a;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
-
-ul,
-li {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 14px;
-}
-
-.list-item {
-  padding: 10px;
-  margin: 6px 10px;
-  cursor: pointer;
-  text-align: justify;
-  position: relative;
-
-  .popmenu {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-  }
-}
-
-.active {
-  background-color: rgb(241, 4, 75);
-}
-
-.el-popover {
-  min-width: 50px !important;
-  width: 100px;
-
-  .el-button {
-    width: 100%;
-    margin-bottom: 4px;
-  }
-}
-
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-
-.el-aside {
-  background-color: #35475a;
-  color: #dadada;
-  text-align: center;
-  height: 100vh;
-  overflow: auto;
-  /* box-shadow: inset 0px 0px 16px 0px black; */
-  letter-spacing: 1px;
-  font-family: sans-serif;
-  padding-top: 30px;
-  position: relative;
-}
-
-.sticky {
-  position: absolute;
-  margin: auto;
-  bottom: 30px;
-  left: 0;
-  right: 0;
-}
-
-.el-main {
-  background-color: #e9eef3;
-  color: #333;
-  text-align: left;
-  height: 100vh;
-}
-
-.custom-input .el-input__inner {
-  text-align: center;
-}
-
-.cell {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-}
-.flex1 {
-  flex: 1;
-}
-.el-divider--horizontal {
-  margin: 0px 0px 24px 0px !important;
-}
-</style>
+<style src="./App.scss"></style>

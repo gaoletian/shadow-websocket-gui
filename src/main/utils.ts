@@ -18,11 +18,11 @@ const DefaultSetting = {
     {
       name: 'herokuapp',
       localAddress: '127.0.0.1',
-      localPort: '1099',
+      localPort: 1099,
       method: 'aes-256-cfb',
       password: 'Gg3619323',
       serverAddress: 'glt-app.herokuapp.com',
-      serverPort: '80'
+      serverPort: 80
     }
   ]
 };
