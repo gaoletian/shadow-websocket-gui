@@ -1,6 +1,6 @@
 {
   "name": "shadow-websocket-gui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "高乐天 <67890211@qq.com>",
   "description": "shadow-websocket gui for mac",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "changelog": "node  -r esm scripts/changelog",
     "zip": "tar zcf build/shadow-websocket-gui-darwin-x64.tar.gz build/shadow-websocket-gui-darwin-x64",
-    "release": "node  -r esm scripts/release.js"
+    "release": "node  scripts/release.js --skipTests"
   },
   "dependencies": {
     "axios": "^0.18.0",

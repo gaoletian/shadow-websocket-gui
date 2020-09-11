@@ -97,6 +97,7 @@ export default class App extends Vue {
 
     this.isShowDialog = true;
   }
+
   active(configName) {
     this.activeConfig = this.configs[this.current].name;
     this.save();
