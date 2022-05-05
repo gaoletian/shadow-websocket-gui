@@ -1,59 +1,21 @@
 import { BrowserWindow } from 'electron';
-import { assetPath } from './utils';
+import { WindowManager } from './manager';
+
+const isDev = process.env.NODE_ENV === 'development';
 
 let configWin: BrowserWindow = null;
 
-const winURL =
-  process.env.NODE_ENV === 'development'
-    ? `http://localhost:9080`
-    : `file://${__dirname}/index.html`;
+export function showConfigWindow() {
+  if (configWin) return;
 
-// 创建配置窗口
-function createConfigWindow() {
-  configWin = new BrowserWindow({
-    alwaysOnTop: true,
-    title: '客户端配置',
+  configWin = WindowManager.createWindow({
+    url: isDev ? 'http://localhost:9080' : `file://${__dirname}/index.html`,
+    type: 'tool',
     width: 660,
     height: 440,
-    resizable: true,
-    maximizable: false,
-    minimizable: false,
-    movable: true,
-    // modal: true,
-    fullscreen: false,
-    fullscreenable: false,
-    // frame: false,
-    darkTheme: true,
-    titleBarStyle: 'default',
-    webPreferences: {
-      devTools: true,
-      nodeIntegration: true
-    },
-    backgroundColor: '#35475a',
-    show: false
+    title: '服务器配置',
+    devTools: isDev
   });
-  configWin.on('close', () => {
-    configWin = null;
-  });
-  configWin.once('ready-to-show', () => {
-    configWin.show();
-    configWin.focus();
-    // configWin.setAlwaysOnTop(true, 'modal-panel');
-  });
-  // configWin.loadURL(`file://${assetPath('index.html')}`);
-  configWin.loadURL(winURL);
-  configWin.setVisibleOnAllWorkspaces(true);
-}
 
-export function showConfigWindow() {
-  if (configWin) {
-    configWin.close();
-  }
-  createConfigWindow();
-}
-
-export function close() {
-  if (configWin) {
-    configWin.close();
-  }
+  configWin.on('close', () => (configWin = null));
 }

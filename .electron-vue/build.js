@@ -21,6 +21,7 @@ const isCI = process.env.CI || false;
 
 if (process.env.BUILD_TARGET === 'clean') clean();
 else if (process.env.BUILD_TARGET === 'web') web();
+else if (process.env.ONLY_BUNDLE) bundleApp();
 else build();
 
 function clean() {
@@ -109,7 +110,7 @@ function pack(config) {
 
 function bundleApp() {
   buildConfig.mode = 'production';
-  packager(buildConfig, (err, appPaths) => {
+  packager(buildConfig).then(console.log).catch((err) => {
     if (err) {
       console.log(
         `\n${errorLog}${chalk.yellow('`electron-packager`')} says...\n`

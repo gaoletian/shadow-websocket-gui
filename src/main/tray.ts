@@ -1,12 +1,4 @@
-import {
-  app,
-  Tray,
-  Menu,
-  App,
-  globalShortcut,
-  ipcMain,
-  MenuItemConstructorOptions
-} from 'electron';
+import { app, Tray, Menu, App, globalShortcut, ipcMain, MenuItemConstructorOptions } from 'electron';
 import { proxy } from './proxyServer';
 import * as cp from 'child_process';
 import {
@@ -16,8 +8,9 @@ import {
   getAutoConfigUrl,
   updateSetting
 } from './utils';
-import { showConfigWindow, close } from './configwin';
+import { showConfigWindow } from './configwin';
 import { CONFIG_DIR, AUTO_CONFIG_URL } from '../share';
+// import {showHubWin} from './windows/hubHelper'
 
 let tray: Tray = null;
 let contextMenu: Menu = null;
@@ -37,8 +30,23 @@ export function createTray() {
 }
 
 function createTrayMenu() {
-  const { activeConfig } = loadSetting();
+  const { activeConfig, pacPort } = loadSetting();
+  const currentConfig = loadConfig();
   let menusList: MenuItemConstructorOptions[] = [
+    { type: 'separator' },
+    {
+      label: `sock://127.0.0.1:${currentConfig.localPort}`,
+      click: function() {
+        // showConfigWindow();
+      }
+    },
+    { type: 'separator' },
+    {
+      label: `http://127.0.0.1:${pacPort}`,
+      // click: function() {
+      //   // showConfigWindow();
+      // }
+    },
     { type: 'separator' },
     {
       type: 'submenu',
@@ -46,6 +54,17 @@ function createTrayMenu() {
       submenu: makeConfigList()
     },
     { type: 'separator' },
+    // {
+    //   label: 'h5hub 助手',
+    //   click: async function() {
+    //     try {
+    //       showHubWin()
+    //     } catch(err) {
+    //       console.error(err)
+    //     }
+        
+    //   }
+    // },
     {
       label: '退出',
       click: async function() {
@@ -75,6 +94,9 @@ function createTrayMenu() {
 
 // 更新托盘菜单及图标
 function updateMenu() {
+
+  makeConfigList()
+
   tray.setImage(
     proxy.running ? assetPath('icon/running.png') : assetPath('icon/normal.png')
   );
@@ -82,7 +104,7 @@ function updateMenu() {
 }
 
 function makeConfigList() {
-  const { configs, activeConfig } = loadSetting();
+  const { configs, activeConfig} = loadSetting();
   return Menu.buildFromTemplate([
     {
       label: '修改配置 [Cmd+Shift+S]',
